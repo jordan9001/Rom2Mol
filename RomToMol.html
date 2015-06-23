@@ -1,0 +1,585 @@
+﻿<html>
+<head>
+<style>
+
+body {
+	background-color: #E3E6E6;
+}
+button {
+
+	-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	-webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	box-shadow:inset 0px 1px 3px 0px #91b8b3;
+
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
+
+	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+
+	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+
+	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+
+	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
+	background-color:#768d87;
+
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+
+	font-size:15px;
+
+	font-weight:bold;
+
+	padding:11px 23px;
+
+	text-decoration:none;
+
+	text-shadow:0px -1px 0px #2b665e;
+
+}
+
+
+button:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+
+	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+
+	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
+
+	background-color:#6c7c7c;
+}
+
+button:active {
+
+	position:relative;
+
+	top:1px;
+
+}
+
+
+textarea {
+	background-color: #F0F2F2;
+	width: 80%;
+	border: 1px solid #6c7c7c;
+	height: 300;
+	margin: 4px 10% 4px 10%;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 1em;
+}	
+
+
+p {
+	background-color: #F0F2F2;
+	width: 80%;
+	border: 1px solid #6c7c7c;
+	min-height: 350;
+	margin: 4px 10% 4px 10%;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 1em;
+}
+
+</style>
+
+<script>
+var translateText;
+var isConsonant;
+var getWord;
+var isIVerb;
+var handle;
+
+var iverbs = ["aboli", "absolvi", "absorbi", "aburi", "acolisi", "acoperi", "acri", "ademeni", "adeveri", "adormi", "adsorbi", "adumbri", "adânci", "adăposti", "adăugi", "aerisi", "afierosi", "afurisi", "ageri", "agesti", "aghesmui", "agonisi", "agrăi", "albi", "albii", "alburi", "albăstri", "alcătui", "alici", "alipi", "altoi", "alungi", "alămi", "ameți", "aminti", "amorți", "amurgi", "amuși", "amuți", "amăgi", "amănunți", "anosti", "aprețui", "arcui", "arcăni", "arendăși", "arestui", "argintui", "argăsi", "argăți", "arici", "aromi", "arvuni", "arăci", "arămi", "ascuți", "asemui", "aservi", "asfinți", "asmuți", "aspri", "asupri", "asurzi", "atribui", "aui", "auri", "autodefini", "autodepăși", "autogospodări", "autoinstrui", "autoservi", "auzi", "azvârli", "aținti", "ațipi", "bacceli", "batjocori", "behăi", "beli", "benchetui", "berbeci", "beteji", "bezmetici", "beșteli", "bichiri", "biciui", "bindisi", "binevoi", "birui", "bizui", "blagoslovi", "blegi", "bleojdi", "bleotocări", "blești", "blodogori", "blonzi", "blănui", "bobi", "boboti", "boci", "bocăni", "bodogăni", "boi", "boieri", "bolborosi", "boldi", "boli", "bolnăvi", "bolovăni", "bolti", "bombăni", "boncăi", "boncălui", "bonti", "boroni", "borteli", "borti", "borși", "boscorodi", "boșorogi", "bramburi", "broboni", "brodi", "bruftui", "brânci", "brânzi", "brăcui", "brăhni", "brănui", "brăzdui", "bubui", "bucheri", "buchirisi", "buchisi", "bucățeli", "bucăți", "bucși", "bufni", "buhăi", "bui", "buici", "buimăci", "buiurdisi", "bujdi", "bulbuci", "bulgări", "buluci", "bumbăci", "bunghini", "burduși", "burghezi", "burlăci", "burzului", "butuci", "butăși", "buzdugăni", "buzni", "buzunări", "buși", "bâhli", "bâigui", "bâjbâi", "bâlbâi", "bântui", "bârfi", "bârâi", "bâzâi", "bâțâi", "băciui", "băcăni", "bădădăi", "băi", "băieți", "băițui", "băjeni", "băjenări", "bălmăji", "băloși", "bălti", "bălăbăni", "bălăci", "bălăcări", "bălălăi", "bălăngăi", "bălăngăni", "băni", "bănui", "bănănăi", "bărbieri", "bărdui", "bărăni", "băsni", "bătuci", "bătători", "băuni", "cabulipsi", "cafeli", "cafti", "calici", "canarisi", "canoni", "cartirui", "catadicsi", "categorisi", "caterisi", "catihisi", "ceaprăzui", "celui", "cepăi", "cercui", "cerni", "cerui", "cerșetori", "cerși", "cetlui", "chefni", "chefui", "chefălui", "chelboși", "chelfăni", "cheli", "cheltui", "chelălăi", "chenărui", "chercheli", "chezășui", "chiaburi", "chibzui", "chicoti", "chifti", "chihăi", "chinui", "chiorăi", "chioti", "chirci", "chirfosi", "chirăi", "chiti", "chitui", "chiui", "chiuli", "chivernisi", "chițăi", "cicăli", "cihăi", "cimili", "cinchi", "cinsti", "cinătui", "ciobi", "ciobăni", "ciocmăni", "ciocni", "ciocoi", "ciocârti", "ciocăni", "ciomăgi", "ciondăni", "ciopli", "ciopârți", "ciordi", "ciorovăi", "cioșmoli", "ciripi", "cislui", "citi", "ciuciuli", "ciudi", "ciufuli", "ciuguli", "ciuli", "ciungi", "ciunti", "ciupi", "ciurui", "clefeti", "clefăi", "cleveti", "clinti", "clipi", "clipoci", "clironomisi", "cloci", "clocoti", "cloncăi", "cloncăni", "clopoți", "clăbuci", "clăcui", "clăcăși", "clădi", "clăi", "clămpăi", "clămpăni", "clăncăi", "clănțăi", "clănțăni", "clăpăi", "clăpăugi", "clăti", "clătări", "cobi", "cocli", "cocoli", "cocoloși", "codi", "codoși", "codălbi", "cofleși", "coi", "coji", "colbăi", "colcăi", "colăci", "colăcări", "complini", "compătimi", "conferi", "conglăsui", "conlocui", "consfinți", "consfătui", "consimți", "constitui", "construi", "conteni", "contopi", "contraservi", "contraveni", "contribui", "conveni", "converti", "conviețui", "convorbi", "conăci", "coperi", "copili", "copilări", "copleși", "coptoroși", "corchezi", "corci", "corconi", "corli", "cornări", "coroti", "corăsli", "cosi", "cositori", "costisi", "cotcodăci", "cotcorozi", "coti", "cotigi", "cotili", "cotonogi", "cotorosi", "cotrobăi", "cotropi", "cotări", "covrigi", "covârși", "covăsi", "coșcovi", "coși", "credinți", "crohmăli", "croi", "croncăni", "cruci", "cruși", "crâcni", "crâmpoți", "crăci", "crănțăni", "ctitori", "cuceri", "cuconi", "cucăi", "cuibări", "cumetri", "cuminți", "cumpli", "cumpăni", "curarisi", "curteni", "curvi", "curvăsări", "cuveni", "cântări", "cârciumări", "cârcoti", "cârcâi", "cârcăli", "cârmi", "cârmui", "cârni", "cârnosi", "cârpi", "cârpăci", "cârti", "cârâi", "căciuli", "cădi", "căftăni", "căi", "căli", "călugări", "călăfătui", "călări", "călători", "călăuzi", "cămășui", "căni", "căpiți", "căpriori", "căptuși", "căpui", "căpătui", "cărnosi", "cărunți", "cărăbăni", "cărămizi", "cărăuși", "căsăpi", "căsători", "cătrăni", "cătăni", "căzni", "cățeli", "cățăi", "damblagi", "decăli", "dedulci", "deferi", "defini", "denumi", "deosebi", "depăși", "deschiaburi", "descloci", "descoji", "descolăci", "descoperi", "descotorosi", "descotoșmăni", "descreți", "descumpăni", "descâlci", "deservi", "desfrunzi", "desfătui", "desluși", "despecetlui", "despironi", "despleti", "despodobi", "despotcovi", "despotmoli", "desprejmui", "despriponi", "desproprietări", "desprăfui", "despăduri", "despăgubi", "despăienjeni", "despărți", "despături", "destitui", "destroieni", "destăinui", "deszăpezi", "desăgi", "desăvârși", "desțeleni", "deveni", "dezaburi", "dezamăgi", "dezbrobodi", "dezdoi", "dezgoli", "dezgovi", "dezgrădi", "dezlipi", "dezlocui", "dezlănțui", "dezmetici", "dezmeți", "dezminți", "dezmiriști", "dezmorți", "dezmoșteni", "deznădăjdui", "dezobișnui", "dezrobi", "dezrăsuci", "dezuni", "dezveli", "dezvinovăți", "dezvinui", "dezvălui", "dibui", "dibăci", "dichisi", "diferi", "dijmui", "dirigui", "discui", "disprețui", "distribui", "dobândi", "doftori", "doftorici", "dogi", "dogori", "doini", "dojeni", "domestici", "domni", "domoli", "dondăni", "dori", "dormi", "dosi", "dospi", "dovedi", "drișcui", "drumui", "drâmboi", "drângăni", "drăcui", "drăgosti", "drămui", "drămălui", "dubi", "dudui", "duelgi", "duhni", "duhori", "duhăni", "dumeri", "dumesnici", "dupăi", "durdui", "durui", "durăi", "dușmăni", "dvori", "dârdâi", "dădăci", "dăinui", "dăltui", "dăngăni", "dănțui", "dărui", "dărăci", "dăscăli", "dăuli", "economisi", "eglindisi", "egumeni", "fandosi", "fasoli", "feciori", "feluri", "ferchezui", "feredui", "ferestrui", "ferfeniți", "feri", "ferici", "feti", "feșteli", "fi", "fini", "fitili", "fitui", "flecui", "flecări", "flencăni", "fleșcăi", "flocoși", "flocăi", "flăcăi", "flămânzi", "foi", "fojgăi", "folfăi", "folosi", "fonfăi", "forfoti", "forfăi", "fornăi", "forăi", "foșni", "foșăi", "franțuzi", "frichini", "frunzări", "frăgezi", "frăsui", "fuduli", "fugi", "fugui", "fugări", "fulgui", "fumui", "fundarisi", "furlandisi", "furnirui", "fușeri", "fâlfâi", "fârnâi", "fâstâci", "fâsâi", "fâșâi", "fâțâi", "făcălui", "făgădui", "făli", "făloși", "fălălăi", "fălțui", "făptui", "făuri", "fățui", "fățări", "fățărnici", "gargarisi", "garnisi", "gelui", "gerui", "ghemui", "ghici", "ghiftui", "ghigosi", "ghili", "ghilosi", "ghintui", "ghionti", "ghiorțăi", "gineri", "gini", "giugiuli", "globi", "glodi", "glumi", "glăsui", "gogi", "goli", "gologăni", "goni", "gospodări", "greși", "griji", "grohăi", "grozăvi", "grundui", "grăbi", "grădinări", "grăi", "grămădi", "gunoi", "gurlui", "gurăi", "gâfâi", "gâgâi", "gâlcevi", "gâlgâi", "gândi", "gânguri", "gângăvi", "gârbovi", "gâtui", "găbji", "găbui", "găităni", "gălbeji", "gălbeni", "gărdui", "găsi", "găti", "găunoși", "găuri", "găvozdi", "găzdui", "haiduci", "haini", "hali", "hartoi", "hicăi", "hiritisi", "hirotoni", "hirotonisi", "hlizi", "hodorogi", "hohoti", "hoinări", "hojbăi", "holtei", "hondrăni", "honipsi", "honui", "hopăi", "horcăi", "horhăi", "hori", "horpăi", "horăi", "hotărnici", "hoți", "hrentui", "hrepcui", "hrăni", "huciui", "hui", "huidui", "huli", "humui", "hurducăi", "hurdui", "hurui", "hutupi", "huzuri", "hâcâi", "hâi", "hârbui", "hârcâi", "hârjoni", "hârsi", "hârâi", "hârșâi", "hâzi", "hâșâi", "hâțâi", "hăbuci", "hăbăuci", "hăcui", "hăi", "hăimăni", "hăitui", "hălpăi", "hălădui", "hălălăi", "hămesi", "hămui", "hămăi", "hăpăi", "hărhăti", "hărnici", "hărtăni", "hărăzi", "hărăți", "hărșni", "hărțui", "hătcăi", "hăti", "hăuli", "hăți", "hățui", "icni", "ieftini", "iezi", "ieși", "institui", "instrui", "interveni", "interverti", "intui", "inverti", "investi", "iobăgi", "irosi", "iscodi", "iscusi", "iscăli", "ispiti", "isprăvi", "isprăvnici", "ispăși", "isteți", "istorisi", "istovi", "iubi", "iui", "iuți", "ivi", "izbi", "izbucni", "izbuti", "izbândi", "izbăvi", "izgoni", "izmeni", "izvodi", "iți", "jecmăni", "jefui", "jeli", "jelui", "jerpeli", "jertfi", "jigni", "jigări", "jilăvi", "jindui", "jintui", "jitări", "jnăpăi", "joi", "judeci", "jugăni", "juli", "jumuli", "jumătăți", "juni", "jupui", "jurui", "jări", "jărui", "lecui", "lefteri", "legiui", "legumi", "lehăi", "lehămeti", "lehămetisi", "lehămetui", "lenevi", "leorbăi", "leorcăi", "leorpăi", "lepui", "lepși", "leșui", "licări", "lihni", "limbuți", "limpezi", "linchi", "linciuri", "lincăi", "linguși", "lingări", "liniști", "lipi", "lipsi", "lipăi", "locui", "logodi", "loloti", "lovi", "luci", "lungi", "luntri", "lustrui", "lutui", "lâncezi", "lăcomi", "lăcui", "lăcătui", "lăfăi", "lăinici", "lălăi", "lămuri", "lărgi", "lărmui", "lăstări", "lăuzi", "lăți", "maimuți", "maimuțări", "mangli", "mangălui", "marghioli", "matisi", "matofi", "matoli", "matosi", "mazili", "mecăi", "megieși", "mehăi", "melestui", "meni", "meremetisi", "meritarisi", "metahirisi", "mezdri", "meșteri", "meșteșugi", "meșteșugări", "mici", "mierli", "migăli", "mihoti", "miji", "mijloci", "milogi", "milostivi", "milui", "minciuni", "mineri", "minți", "miorcăi", "miorlăi", "mirosi", "mirui", "mistui", "mitui", "mișui", "mițui", "mocni", "mocoși", "mocăi", "mofluzi", "mogorogi", "molcomi", "moleși", "molfăi", "molipsi", "momi", "morfoli", "morfologi", "mormorosi", "mormăi", "morocăni", "morări", "mototoli", "motroși", "movili", "mozoli", "moșcondi", "moșcoti", "moși", "moșmondi", "moșmoni", "moșteni", "moțăi", "mreji", "mucegăi", "mucezi", "mucări", "mugi", "muguri", "muieri", "mulțumi", "munci", "murdări", "murgi", "muri", "murmui", "murui", "musti", "mustui", "mustăci", "mușlui", "muștrului", "mușuroi", "muți", "mâglisi", "mâhni", "mâlci", "mâli", "mândri", "mânji", "mântui", "mânui", "mârli", "mârâi", "mârșăvi", "mâzgăli", "mâșâi", "măcelări", "măcăi", "măcăni", "măguli", "măiestri", "măngălui", "mărgini", "mărgări", "mări", "mărmuri", "mărturisi", "mărunți", "mărșui", "mărșălui", "măscui", "măscări", "măslui", "mătrăși", "mătăhăi", "mătănăi", "navlosi", "nebuni", "necinsti", "necăji", "nedreptăți", "nedumeri", "neferici", "negri", "negustori", "neliniști", "nemernici", "nemulțumi", "nemuri", "nemți", "nenoroci", "nesocoti", "netezi", "nevoi", "neîngriji", "nimeri", "nimici", "nimicnici", "nitui", "noroci", "noroi", "numi", "nunti", "nutri", "nutui", "năboi", "năbuși", "năbădăi", "năclăi", "năduși", "nădăjdui", "năimi", "năluci", "nămeți", "nămoli", "năpusti", "năpârli", "năpădi", "năpăstui", "nărui", "nărăvi", "născoci", "năstăvi", "năsădi", "nătângi", "năuci", "năvodi", "năvădi", "năvăli", "năzui", "năzări", "năși", "obidi", "obijdui", "obișnui", "oblici", "obloji", "obloni", "oblădui", "obosi", "obrinti", "obroci", "obrăznici", "obrăzui", "obârși", "obști", "ochi", "ocoli", "ocroti", "ocuparisi", "ocârmui", "ocăi", "odihni", "odrăsli", "oferi", "ofili", "oglindi", "ogoi", "ogârji", "olecăi", "ologi", "oloi", "omeni", "omeți", "onănăi", "opinti", "oploși", "opri", "opăci", "opări", "orbecăi", "orbi", "orbălți", "oropsi", "ortăci", "orândui", "orăcăi", "osebi", "osteni", "ostoi", "ostăși", "osândi", "osârdui", "oticni", "otrăvi", "otânji", "otăvi", "oști", "oțeli", "oțeti", "papagalici", "papistăși", "paradi", "paradosi", "paraponisi", "parastisi", "paratirisi", "paravalisi", "pardosi", "parigorisi", "paroi", "parveni", "pașli", "pecetlui", "pedepsi", "pedestri", "peltici", "perdelui", "perdăfui", "perverti", "pescui", "pescări", "petici", "peți", "picni", "picoti", "picui", "pieri", "pietrui", "piguli", "pildui", "pili", "pingeli", "pipernici", "pipăi", "pironi", "piroti", "pirui", "piscui", "pisici", "pistui", "pisăgi", "pisălogi", "pitici", "piui", "pizmui", "planisi", "plenui", "pleoscăi", "pleoști", "plescăi", "plesni", "pleșcui", "pleșuvi", "plici", "pliciui", "plictisi", "plini", "pliroforisi", "plivi", "ploconi", "plodi", "plugări", "plumbui", "pluti", "plutui", "plutări", "plămădi", "plănui", "plăsmui", "plăti", "poci", "pocni", "pocâlti", "pocăi", "podi", "podidi", "podobi", "pofti", "poftori", "polei", "pologi", "pomeni", "pomosti", "pomădui", "ponegri", "ponosi", "popi", "poposi", "popri", "porcăi", "porecli", "porni", "porunci", "posmăgi", "pospăi", "posti", "potcovi", "poticni", "potlogări", "potmoli", "potoli", "potopi", "potricăli", "potrivi", "povesti", "povârni", "povățui", "preamări", "preaslăvi", "precovârși", "precumpăni", "precupeți", "predomni", "pregăti", "prelungi", "preoți", "presimți", "prestabili", "presădi", "preursi", "preveni", "prevesti", "preîncălzi", "preînnoi", "prești", "prețui", "prețălui", "pribegi", "priboi", "prici", "pricinui", "pricopsi", "pricăji", "prididi", "prigoni", "prigori", "prii", "prileji", "prilejui", "primejdui", "primeni", "primi", "pripi", "priponi", "pripăși", "prisosi", "pristăvi", "pritoci", "privi", "prizări", "probozi", "probălui", "prociti", "profeți", "prohibi", "prohodi", "prohorisi", "propovădui", "propti", "propăși", "proroci", "proscomidi", "proslăvi", "prosti", "protegui", "proveni", "proțăpi", "prufni", "prunci", "prundi", "prundui", "prânzi", "prăbuși", "prădui", "prăfui", "prăji", "prăpădi", "prăsi", "prăvăli", "prăznui", "prăși", "pudrui", "pufni", "pufăi", "puhoi", "puhăvi", "pui", "pungi", "pungăli", "pungăși", "pupăi", "pustii", "pustnici", "putregăi", "putrezi", "pușcări", "puți", "pâcâi", "pâlpâi", "pândi", "pângări", "pârgui", "pârjoli", "pârli", "pârlogi", "pârpăli", "pârâi", "pârțâi", "pâsli", "păcurări", "păcăli", "păcăni", "păcătui", "păgubi", "păgâni", "păienjeni", "păli", "pălmui", "pălălăi", "pălăvrăgi", "păpuri", "părtini", "părui", "părădui", "părăgini", "părăsi", "păstori", "păsui", "pătimi", "pătuli", "pături", "păuni", "păzi", "păși", "păți", "rablagi", "ramoli", "rasoli", "reacoperi", "readormi", "reaerisi", "realipi", "realtoi", "reaminti", "reatribui", "rebegi", "reciti", "reclădi", "reconstitui", "reconstrui", "reconverti", "recuceri", "recântări", "recăsători", "redefini", "redescoperi", "redeveni", "redistribui", "redobândi", "referi", "refolosi", "regularisi", "regândi", "regăsi", "reieși", "reinvesti", "reorândui", "repezi", "repovesti", "reprimi", "resimți", "resorbi", "restabili", "restatornici", "restitui", "retipări", "retopi", "retribui", "retrăi", "retălmăci", "reuni", "reuși", "reveni", "revizui", "revopsi", "rezidi", "reîmpăduri", "reîmpărți", "reîncolți", "reîncălzi", "reînflori", "reînnoi", "reînsufleți", "reînsănătoși", "reîntineri", "reîntregi", "reîntâlni", "reînverzi", "reșlefui", "riflui", "rihtui", "rindelui", "risipi", "rițui", "robi", "roboti", "rocoși", "rodnici", "roi", "români", "ronțăi", "ropoti", "rosti", "rostogoli", "rostui", "roti", "rotocoli", "rotunji", "roși", "rudi", "rugi", "rugini", "rumeni", "rupturi", "râcâi", "râgâi", "râncezi", "rândui", "râni", "rânji", "râvni", "râșni", "răboji", "răbufni", "răbui", "răci", "răcni", "răcori", "răcădui", "răcăni", "răfui", "răguși", "rămuri", "rămăși", "răni", "răpi", "răpăi", "răpști", "rări", "răsciti", "răscloci", "răscoli", "răscroi", "răsfoi", "răsplămădi", "răsplăti", "răspopi", "răspândi", "răsti", "răstigni", "răstoci", "răstălmăci", "răsuci", "răsădi", "răsări", "răsști", "rătuti", "rătăci", "răvăși", "răzbi", "răzbici", "război", "războli", "răzbubui", "răzgândi", "răzleți", "răzmeri", "răzni", "răzori", "răzui", "răzvidi", "răzvrăti", "răzălui", "rășlui", "rășpălui", "rățoi", "salahori", "sastisi", "schilodi", "schilăvi", "schimnici", "schimonosi", "schingiui", "sclifosi", "sclipi", "sclipui", "sclivisi", "scobi", "scofâlci", "scopi", "scorboroși", "scormoni", "scorni", "scoroji", "scotoci", "scrijeli", "scrobi", "scrombăi", "scrânti", "scrâșni", "scumpi", "scuti", "scânci", "scârbi", "scârnăvi", "scârțâi", "secătui", "semeți", "semui", "semălui", "servi", "sfarogi", "sfecli", "sfeterisi", "sfeti", "sfii", "sfinți", "sfoiegi", "sforăi", "sfredeli", "sfredeluși", "sfriji", "sfârcui", "sfârcâi", "sfârlogi", "sfârâi", "sfârși", "sfădi", "sfănțui", "sfătui", "sictiri", "siguripsi", "sihăstri", "silabisi", "sili", "silnici", "silui", "simți", "sinchisi", "sinelui", "sinili", "slavoslovi", "slei", "slimui", "slobozi", "slomni", "sloveni", "slugări", "slugărnici", "sluji", "sluți", "slăbi", "slăbănogi", "slăvi", "smeri", "sminti", "smiorcăi", "smochini", "smoli", "smomi", "smotoci", "smredui", "smuci", "smântâni", "smârcâi", "smălțui", "snopi", "socoti", "socri", "sodomi", "soi", "soli", "solomoni", "solvi", "sorbi", "sorcovi", "sori", "soroci", "sorti", "sosi", "speti", "spicui", "spilcui", "spoi", "spori", "sporovăi", "spovedi", "sprijini", "spuzi", "spânzui", "spârcui", "spălăci", "spăsi", "stabili", "stafidi", "statornici", "sticli", "stihui", "stingheri", "stivui", "stoci", "storci", "strepezi", "streșini", "stricni", "strivi", "stropi", "stropoli", "stropși", "struji", "strungări", "struni", "strunji", "strădui", "străjui", "străluci", "strășnici", "stupi", "stâlci", "stâmpi", "stânjeni", "stârci", "stârni", "stârpi", "stăpâni", "stăreți", "stărosti", "stărui", "stăvi", "stăvili", "substitui", "subzidi", "subîmpărți", "suci", "sucăli", "sudui", "suferi", "sui", "sulimeni", "suplini", "supraalbi", "supranumi", "supraviețui", "supraîncălzi", "surchidi", "surghiuni", "suri", "surnumi", "surveni", "surzi", "sâcâi", "sârgui", "sâsâi", "sădi", "săgni", "sălbătici", "sălășlui", "săpuni", "sărbezi", "sărbători", "sări", "sărăci", "sărădui", "săvârși", "tehui", "temeinici", "temeni", "tencui", "terciui", "terfeli", "tescui", "teși", "teșmeni", "ticlui", "ticsi", "ticăi", "ticăloși", "tigheli", "tihni", "tipări", "titiri", "titirisi", "tiui", "tivi", "toci", "tocmi", "tocăni", "tologi", "tologăni", "tolăni", "topi", "toropi", "tratarisi", "travesti", "trebui", "trebălui", "tresări", "trezi", "trilui", "troieni", "tromboni", "troncăni", "tropoti", "tropăi", "trosni", "trudi", "trândăvi", "trânti", "trântori", "trăi", "trăncăni", "trăsni", "tufli", "turci", "turlăci", "turti", "turui", "tutui", "tuși", "tâlcui", "tâlhări", "tâmpi", "tândăli", "tângui", "tânji", "târcoli", "târgui", "târli", "târnosi", "târnui", "târâi", "târșâi", "tăblui", "tăblăci", "tăbârci", "tăbăci", "tăcăi", "tăgădui", "tăifăsui", "tăinui", "tălmăci", "tălpui", "tălpălui", "tălălăi", "tălăncăni", "tălăzui", "tămânji", "tămădui", "tăpălăi", "tăpși", "tărbăci", "tăui", "tăuși", "tăvăli", "tăvălugi", "ucenici", "ugui", "uimi", "ului", "umbri", "umezi", "umili", "undi", "undui", "unelti", "uni", "urgisi", "urlui", "urmări", "urni", "ursi", "urzi", "urâți", "ușchi", "ușui", "vecui", "veni", "versui", "veseli", "vesti", "veșteji", "vicleni", "viermui", "viersui", "viețui", "viscoli", "vitregi", "vlăgui", "voi", "voinici", "volnici", "vopsi", "vorbi", "vornici", "vorovi", "votri", "vrednici", "vremui", "vrăfui", "vrăji", "vrăjmăși", "vui", "vuvui", "vâjâi", "vâlcezi", "vântui", "vânzoli", "vârfui", "vârteji", "vârtejui", "vâsli", "văcsui", "văcări", "vădi", "văduvi", "văicări", "vălmăși", "vălătuci", "vălțui", "vămui", "văpăi", "vărui", "vărzui", "văsări", "vătui", "vătăși", "zaharisi", "zapcii", "zavergisi", "zavistui", "zbengui", "zbici", "zbiciui", "zbihui", "zblendui", "zborși", "zbughi", "zburătui", "zburături", "zburătăci", "zbânțui", "zbârci", "zbârli", "zbârnâi", "zbârâi", "zdreli", "zdrențui", "zdrobi", "zdroncăni", "zdroși", "zdrăngăni", "zdupăi", "zeberi", "zeciui", "zeflemisi", "zemoși", "zemui", "zeri", "zețui", "zgribuli", "zgudui", "zgâi", "zgâlțâi", "zgâmboi", "zgândări", "zgârci", "zidi", "zidui", "zimțui", "zincui", "zobi", "zoli", "zopoti", "zori", "zornăi", "zorzoi", "zugrăvi", "zumbăi", "zumzăi", "zupăi", "zurui", "zuzui", "zvecui", "zvidui", "zvoni", "zvâcni", "zvâcâi", "zvârcoli", "zvârli", "zâmbi", "zâzâi", "zăbovi", "zăbreli", "zăcări", "zădărnici", "zăgrăi", "zăgăzui", "zăhăi", "zăhări", "zăleti", "zălezi", "zălogi", "zăluzi", "zămisli", "zăngăni", "zăpsi", "zăpuși", "zăpăci", "zăpăi", "zărghi", "zări", "zărvăi", "zărăsti", "zăsti", "zăticni", "zătoni", "îmblânzi", "îmblăni", "îmblăti", "îmboboci", "îmbodoli", "îmbogăți", "îmbolboji", "îmboldi", "îmbolnăvi", "îmbrobodi", "îmbrânci", "îmbucătăți", "îmbucăți", "îmbulzi", "îmbunătăți", "îmburghezi", "îmbâcsi", "îmbătrâni", "împeți", "împietri", "împistri", "împleti", "împletici", "împlini", "împodobi", "împotmoli", "împotrivi", "împrejmui", "împrieteni", "împroprietări", "împupi", "împuternici", "împuți", "împâcli", "împânzi", "împâsli", "împăciui", "împăduri", "împăienjeni", "împământeni", "împăpuri", "împărtăși", "împărăți", "împărți", "împătimi", "împătri", "împături", "înauri", "înavuți", "încartirui", "încercui", "încetini", "încetățeni", "închipui", "închirci", "încinci", "încolăci", "încolătăci", "încolți", "încremeni", "încreți", "încropi", "încruci", "încruși", "încumetri", "încuscri", "încâlci", "încârdui", "încălzi", "încăpui", "încăpuși", "încărunți", "îndeletnici", "îndeplini", "îndesi", "îndigui", "îndobitoci", "îndoi", "îndosi", "îndreptui", "îndreptăți", "îndritui", "îndrăci", "îndrăgi", "îndrăgosti", "îndrăzni", "îndulci", "îndumnezei", "îndușmăni", "îndârji", "îndărătnici", "înflori", "înfofoli", "înfrunzi", "înfrăți", "înfurci", "înfăptui", "înghemui", "înghesui", "înghionti", "înghiți", "îngloti", "îngriji", "îngrozi", "îngrădi", "îngrămădi", "îngurlui", "îngurzi", "îngădui", "îngălbeni", "înjosi", "înjumătăți", "înlemni", "înlesni", "înlocui", "înlănțui", "înmii", "înmuguri", "înmulți", "înmurgi", "înmărmuri", "înnebuni", "înnegri", "înnemuri", "înnoi", "înnoroi", "înnădi", "înnămoli", "înnărăvi", "înrobi", "înroși", "înrudi", "înrâuri", "înrăi", "înrăutăți", "însori", "însoți", "înstăpâni", "înstări", "însufleți", "însuti", "însuși", "însănătoși", "înteți", "întineri", "întipări", "întocmi", "întovărăși", "întrauri", "întregi", "întrei", "întrezări", "întroieni", "întruni", "întâlni", "întări", "învechi", "înveli", "înverzi", "înveseli", "învesti", "înveșnici", "învineți", "învinovăți", "învinui", "învoi", "învoinici", "învrednici", "învrăjbi", "învrăjmăși", "învâltori", "învârteji", "învârti", "învălmăși", "învălui", "învălătuci", "înzdrăveni", "înzeci", "înzidi", "înzili", "înzăpezi", "înăbuși", "înăclăi", "înăcri", "înăduși", "înălbi", "înălbăstri", "înăspri", "înșirui", "înțeleni", "înțepeni", "înțoli", "înțărcui", "școli", "școlări", "șerbi", "șerfui", "șerpui", "șerui", "șeverui", "șfichiui", "șfărui", "șicui", "șindrili", "șindrui", "șinui", "șiroi", "șiștăvi", "șișăi", "șițui", "șlefui", "șmecheri", "șmotri", "șnurui", "șoimări", "șoldi", "șontorogi", "șontâcăi", "șopoti", "șopti", "șopăi", "șoricări", "șoselui", "șovâlcăi", "șovăi", "șoșoi", "șoșoni", "șparli", "șperțui", "șpraițui", "șprițui", "șpăclui", "șpăltui", "ștemplui", "ștempări", "ștemui", "șterpeli", "ști", "știftui", "știobâlcăi", "știrbi", "știrici", "ștolui", "ștrecui", "ștrengări", "ștupui", "ștuțui", "ștănțui", "șubrezi", "șucări", "șugui", "șumeni", "șupuri", "șurubui", "șuti", "șușoti", "șușui", "șâșâi", "șănțui", "țevui", "țicni", "țicui", "țigăni", "ținti", "țintui", "țipoti", "țistui", "țiui", "țivli", "țocăi", "țopârlăni", "țopăi", "țuhăi", "țuicui", "țuicări", "țâfni", "țâpuri", "țârlâi", "țârâi", "țâșni", "țâțâi", "țăcăni", "țăhni", "țăndări", "țărcui", "țărmui", "țărmuri"]
+
+
+isIVerb = function (word) {
+    var cleanword = word.replace(/ş/gi, "ș");
+    word = cleanword.replace(/ţ/gi, "ț");
+
+    for (var i=0; i < iverbs.length; i++){
+        if (iverbs[i] == word){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+getWord = function (position, numbefore, intext) {
+    //also cleans and makes small
+    //numbefore 0 = current word, 1 = prev word
+    var startpos = 0;
+    
+    for (var j = position; j >= 0; j--){
+
+        if ( (intext.charAt(j) == ' ' || intext.charAt(j) == '\n') && (intext.charAt(j-1) != ' ' || intext.charAt(j-1) != '\N') ){
+            numbefore--;
+        }
+        if (numbefore < 0){
+            startpos =j+1;
+            j = -1;
+        }
+    }
+    
+    var endloop = false;
+    var tword = '';
+    
+    while (endloop === false){
+        if (/[AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZaăâbcdefghiîjklmnopqrsștțuvwxyzŢţŞş]/.test(intext.charAt(startpos)) ){
+            tword += intext.charAt(startpos);
+        startpos++;
+        } else {
+        endloop = true;
+        }
+    }
+
+    var cleanword = tword.replace(/ş/gi, "ș");
+    tword = cleanword.replace(/ţ/gi, "ț");
+
+    return tword.toLowerCase();
+}
+
+isConsonant = function (letter) {
+    var consona = true;
+    if (letter === 'A' || letter === 'a' || letter === 'E' || letter === 'e' || letter === 'I' || letter === 'i' || letter === 'O' || letter === 'o' || letter === 'U' || letter === 'u' || letter === 'Ă' || letter === 'ă' || letter === 'Â' || letter === 'â' || letter === 'Î' || letter === 'î'){
+        consona = false;
+    }
+    return consona;
+}
+
+translateText = function () {
+
+
+    var latintext = document.getElementById("input").value;
+
+    var moldovan = "";
+
+    for (var i = 0; i < latintext.length; i++){
+        var c = latintext.charAt(i);
+
+        switch(c){
+            case 'A':
+                moldovan += "А";
+                break;
+            case 'a':
+                moldovan += "а";
+                break;
+
+            case 'B':
+                moldovan += "Б";
+                break;
+            case 'b':
+                moldovan += "б";
+                break;
+
+            case 'C': //still not complete maybe? sometimes it should be ci with i
+                if (latintext.charAt(i+1).toLowerCase() == 'h'){
+                    moldovan += "К";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' && latintext.charAt(i+2).toLowerCase() == 'a'){
+                    moldovan += "Ч";
+                    i++;
+		} else if (latintext.charAt(i+1).toLowerCase() == 'e' || latintext.charAt(i+1).toLowerCase() == 'i'){
+                    if (latintext.charAt(i+1).toLowerCase() == 'i' && (latintext.charAt(i+2).toLowerCase() == 'o' || latintext.charAt(i+2).toLowerCase() == 'u') ){
+			moldovan += "Ч";
+			i++;
+		    } else {
+			moldovan += "Ч";
+		    }
+                } else {
+                    moldovan += "К";
+                }
+                break;
+            case 'c':
+                if (latintext.charAt(i+1).toLowerCase() == 'h'){
+                    moldovan += "к";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' && latintext.charAt(i+2).toLowerCase() == 'a'){
+                    moldovan += "ч";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' || latintext.charAt(i+1).toLowerCase() == 'i'){
+                    if (latintext.charAt(i+1).toLowerCase() == 'i' && (latintext.charAt(i+2).toLowerCase() == 'o' || latintext.charAt(i+2).toLowerCase() == 'u') ){
+			moldovan += "ч";
+			i++;
+		    } else {
+			moldovan += "ч";
+		    }
+                } else {
+                    moldovan += "к";
+                }
+                break;
+
+            case 'D':
+                moldovan += "Д";
+                break;
+            case 'd':
+                moldovan += "д";
+                break;
+
+            case 'E': //Ea is sometimes Я, sometimes EA, but how do I know?
+                if (latintext.charAt(i+1).toLowerCase() == 'a' && isConsonant(latintext.charAt(i-1).toLowerCase())){
+                    moldovan += "Я";
+                    i++;
+                } else {
+                    moldovan += "Е";
+                }
+                break;
+            case 'e':
+                if (latintext.charAt(i+1).toLowerCase() == 'a' && isConsonant(latintext.charAt(i-1).toLowerCase())){
+                    moldovan += "я";
+                    i++;
+                } else {
+                    moldovan += "е";
+                }
+                break;
+
+            case 'F':
+                moldovan += "Ф";
+                break;
+            case 'f':
+                moldovan += "ф";
+                break;
+
+            case 'G':
+                if (latintext.charAt(i+1).toLowerCase() == 'h' && (latintext.charAt(i+2).toLowerCase() == 'i' || latintext.charAt(i+2).toLowerCase() == 'e')){
+                    moldovan += "Г";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' && latintext.charAt(i+2).toLowerCase() == 'a'){
+                    moldovan += "Ӂ";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' || latintext.charAt(i+1).toLowerCase() == 'i'){
+                    moldovan += "Ӂ";
+                } else {
+                    moldovan += "Г";
+                }
+                break;
+            case 'g':
+                if (latintext.charAt(i+1).toLowerCase() == 'h' && (latintext.charAt(i+2).toLowerCase() == 'i' || latintext.charAt(i+2).toLowerCase() == 'e')){
+                    moldovan += "г";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' && latintext.charAt(i+2).toLowerCase() == 'a'){
+                    moldovan += "ӂ";
+                    i++;
+                } else if (latintext.charAt(i+1).toLowerCase() == 'e' || latintext.charAt(i+1).toLowerCase() == 'i'){
+                    moldovan += "ӂ";
+                } else {
+                    moldovan += "г";
+                }
+                break;
+
+            case 'H':
+                moldovan += "Х";
+                break;
+            case 'h':
+                moldovan += "х";
+                break;
+
+            case 'I': //ia is sometimes Я sometimes ИЯ sometimes ИA sometimes ЬЯ also what about Ю in words?
+		var inword = getWord(i, 0, latintext);
+		var wordbefore = getWord(i, 1, latintext);
+
+		var verbword = false;
+		if (wordbefore == "ce" || wordbefore == "a" || wordbefore == "pot" || wordbefore == "poți" || wordbefore == "poate" || wordbefore == "putem" || wordbefore == "puteți" || wordbefore == "aș" || wordbefore == "ai" || wordbefore == "ar" || wordbefore == "am" || wordbefore == "ați" || wordbefore == "nu"){
+			verbword = true;
+		}
+		
+		if ( latintext.charAt(i+1).toLowerCase() == '-' || latintext.charAt(i-1).toLowerCase() == '-' ){
+			moldovan += "И";
+		} else if (inword == "oricând" || inword == "oriunde" || inword == "orice" || (inword == "oricine" && latintext.charAt(i-1).toLowerCase() == 'r') || inword == "oricum" || inword == "oricât" || inword == "oricâte" || (inword == "niciunu" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "niciuna" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nicio" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "niciun" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nici-un" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nici-o" && latintext.charAt(i-1).toLowerCase() == 'c') || inword == "mi" || inword == "ti" || inword == "i" || inword == "ni" || inword == "vi" || inword == "li" || inword == "câțiva"){
+			moldovan += "Ь";
+		} else if (/[^\W\s]/.test(latintext.charAt(i+1).toLowerCase()) || /[ăâîșț]/.test(latintext.charAt(i+1).toLowerCase())  ) {
+			if ( latintext.charAt(i+1).toLowerCase() == 'a' ){
+				moldovan += "Я";
+				i++;
+			} else if ( isConsonant(latintext.charAt(i-1).toLowerCase()) || latintext.charAt(i-1).toLowerCase() == 'i' ){
+				moldovan += "И";
+			} else if ( latintext.charAt(i-1).toLowerCase() == 'e' && latintext.charAt(i+1).toLowerCase() == 'e' ){
+				moldovan += "";
+			} else if ( latintext.charAt(i+1).toLowerCase() == 'o' && (/[\W\s]/.test(latintext.charAt(i-1).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-1).toLowerCase())) ){
+				moldovan += "Ю";
+				i++;
+			} else {
+				moldovan += "Й";
+			}
+		} else if ( verbword == true && isIVerb(inword) ){
+			moldovan += "И";
+
+		} else if ( (latintext.charAt(i-1).toLowerCase() == 'r' && (latintext.charAt(i-2).toLowerCase() == 'c' || latintext.charAt(i-2).toLowerCase() == 'd' || latintext.charAt(i-2).toLowerCase() == 't')) ||(latintext.charAt(i-1).toLowerCase() == 'l' && (latintext.charAt(i-2).toLowerCase() == 'f' || latintext.charAt(i-2).toLowerCase() == 'p' || latintext.charAt(i-2).toLowerCase() == 'b' || latintext.charAt(i-2).toLowerCase() == 'r')) ){
+			moldovan += "И";
+		} else if ( !isConsonant(latintext.charAt(i-1).toLowerCase()) ){
+			moldovan += "Й";
+		} else if ( latintext.charAt(i-1).toLowerCase() == 'c' && ( /[\W\s]/.test(latintext.charAt(i-2).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-2).toLowerCase()) ) ){
+			moldovan += "И";
+		} else if ( latintext.charAt(i-1).toLowerCase() == 'ș' && ( /[\W\s]/.test(latintext.charAt(i-2).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-2).toLowerCase()) ) ) {
+			moldovan += "И";
+		} else {
+			moldovan += "Ь";
+		}
+		break;
+            case 'i':
+		var inword = getWord(i, 0, latintext);
+		var wordbefore = getWord(i, 1, latintext);
+
+		var verbword = false;
+		if (wordbefore == "ce" || wordbefore == "a" || wordbefore == "pot" || wordbefore == "poți" || wordbefore == "poate" || wordbefore == "putem" || wordbefore == "puteți" || wordbefore == "aș" || wordbefore == "ai" || wordbefore == "ar" || wordbefore == "am" || wordbefore == "ați" || wordbefore == "nu"){
+			verbword = true;
+		}
+
+		if ( latintext.charAt(i+1).toLowerCase() == '-' || latintext.charAt(i-1).toLowerCase() == '-' ){
+			moldovan += "и";
+		} else if (inword == "oricând" || inword == "oriunde" || inword == "orice" || (inword == "oricine" && latintext.charAt(i-1).toLowerCase() == 'r') || inword == "oricum" || inword == "oricât" || inword == "oricâte" || (inword == "niciunu" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "niciuna" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nicio" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "niciun" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nici-un" && latintext.charAt(i-1).toLowerCase() == 'c') || (inword == "nici-o" && latintext.charAt(i-1).toLowerCase() == 'c') || inword == "mi" || inword == "ti" || inword == "i" || inword == "ni" || inword == "vi" || inword == "li" || inword == "câțiva"){
+			moldovan += "Ь";
+		} else if (/[^\W\s]/.test(latintext.charAt(i+1).toLowerCase()) || /[ăâîșț]/.test(latintext.charAt(i+1).toLowerCase()) ) {
+			if ( latintext.charAt(i+1).toLowerCase() == 'a' ){
+				moldovan += "я";
+				i++;
+			} else if ( isConsonant(latintext.charAt(i-1).toLowerCase()) || latintext.charAt(i-1).toLowerCase() == 'i' ){
+				moldovan += "и";
+			} else if ( latintext.charAt(i-1).toLowerCase() == 'e' && latintext.charAt(i+1).toLowerCase() == 'e' ){
+				moldovan += "";
+			} else if ( latintext.charAt(i+1).toLowerCase() == 'o' && (/[\W\s]/.test(latintext.charAt(i-1).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-1).toLowerCase())) ){
+				moldovan += "ю";
+				i++;
+			} else {
+				moldovan += "й";
+			}
+		} else if ( verbword == true && isIVerb(inword) ){
+			moldovan += "и";
+
+		} else if ( (latintext.charAt(i-1).toLowerCase() == 'r' && (latintext.charAt(i-2).toLowerCase() == 'c' || latintext.charAt(i-2).toLowerCase() == 'd' || latintext.charAt(i-2).toLowerCase() == 't')) ||(latintext.charAt(i-1).toLowerCase() == 'l' && (latintext.charAt(i-2).toLowerCase() == 'f' || latintext.charAt(i-2).toLowerCase() == 'p' || latintext.charAt(i-2).toLowerCase() == 'b' || latintext.charAt(i-2).toLowerCase() == 'r')) ){
+			moldovan += "и";			
+		} else if ( !isConsonant(latintext.charAt(i-1).toLowerCase()) ){
+			moldovan += "й";
+		} else if ( latintext.charAt(i-1).toLowerCase() == 'c' && ( /[\W\s]/.test(latintext.charAt(i-2).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-2).toLowerCase()) ) ){
+			moldovan += "и";
+		} else if ( latintext.charAt(i-1).toLowerCase() == 'ș' && ( /[\W\s]/.test(latintext.charAt(i-2).toLowerCase()) && /[^ăâîșț]/.test(latintext.charAt(i-2).toLowerCase()) ) ) {
+			moldovan += "и";
+		} else {
+			moldovan += "ь";
+		}
+		break;
+
+            case 'J':
+                moldovan += "Ж";
+                break;
+            case 'j':
+                moldovan += "ж";
+                break;
+
+            case 'K':
+                moldovan += "К";
+                break;
+            case 'k':
+                moldovan += "к";
+                break;
+
+            case 'L':
+                moldovan += "Л";
+                break;
+            case 'l':
+                moldovan += "л";
+                break;
+
+            case 'M':
+                moldovan += "М";
+                break;
+            case 'm':
+                moldovan += "м";
+                break;
+
+            case 'N':
+                moldovan += "Н";
+                break;
+            case 'n':
+                moldovan += "н";
+                break;
+
+            case 'O':
+                moldovan += "О";
+                break;
+            case 'o':
+                moldovan += "о";
+                break;
+
+            case 'P':
+                moldovan += "П";
+                break;
+            case 'p':
+                moldovan += "п";
+                break;
+
+            case 'Q':
+                moldovan += "";
+                break;
+            case 'q':
+                moldovan += "";
+                break;
+
+            case 'R':
+                moldovan += "Р";
+                break;
+            case 'r':
+                moldovan += "р";
+                break;
+
+            case 'S':
+                moldovan += "С";
+                break;
+            case 's':
+                moldovan += "с";
+                break;
+
+            case 'T':
+                moldovan += "Т";
+                break;
+            case 't':
+                moldovan += "т";
+                break;
+
+            case 'U':
+                moldovan += "У";
+                break;
+            case 'u':
+                moldovan += "у";
+                break;
+
+            case 'V':
+                moldovan += "В";
+                break;
+            case 'v':
+                moldovan += "в";
+                break;
+
+            case 'W':
+                moldovan += "Уа";
+                break;
+            case 'w':
+                moldovan += "уа";
+                break;
+
+            case 'X': //sometimes K3
+                moldovan += "Кс";
+                break;
+            case 'x':
+                moldovan += "кс";
+                break;
+
+            case 'Y':
+                moldovan += "И";
+                break;
+            case 'y':
+                moldovan += "и";
+                break;
+
+            case 'Z':
+                moldovan += "З";
+                break;
+            case 'z':
+                moldovan += "з";
+                break;
+
+            case 'Ă':
+                moldovan += "Э";
+                break;
+            case 'ă':
+                moldovan += "э";
+                break;
+
+            case 'Â':
+                moldovan += "Ы";
+                break;
+            case 'â':
+                moldovan += "ы";
+                break;
+
+            case 'Î':
+                moldovan += "Ы";
+                break;
+            case 'î':
+                moldovan += "ы";
+                break;
+
+            case 'Ș':
+                moldovan += "Ш";
+                break;
+            case 'ș':
+                moldovan += "ш";
+                break;
+            case 'Ş':
+                moldovan += "Ш";
+                break;
+            case 'ş':
+                moldovan += "ш";
+                break;
+
+            case 'Ț':
+                moldovan += "Ц";
+                break;
+            case 'ț':
+                moldovan += "ц";
+                break;
+            case 'Ţ':
+                moldovan += "Ц";
+                break;
+            case 'ţ':
+                moldovan += "ц";
+                break;
+
+        	case '\n':
+       		 moldovan += "</br>";
+        	break;
+
+            default:
+                if ( /[.,' "—:;()!?1234567890/-]/.test(c) ) {
+            moldovan += c;
+        }
+        else {
+            moldovan += "ErRoR";
+        }
+            
+
+        }
+        
+    }
+    
+
+    document.getElementById("output").innerHTML = decodeURI(moldovan);
+}
+
+</script>
+
+</head>
+
+<body>
+<center>
+<textarea id="input" onkeydown="if (event.which == 13 || event.keyCode == 13) translateText()">Românească
+</textarea>
+</br>
+
+<button type="button" onclick="translateText()">Translate</button>
+</br>
+</center>
+<div id="content">
+<p id="output">
+Молдовеняскэ
+</p>
+</div>
+
+</body>
+</html>
